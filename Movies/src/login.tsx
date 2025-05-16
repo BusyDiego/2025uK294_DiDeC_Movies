@@ -1,102 +1,73 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
-import "./App.css";
-import "./loginService.tsx";
+import "./login.css";
+import { Box, TextField, Button, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import { MoviesProxy } from "./movies.tsx";
+import { baseInstance } from "./Api";
 
-// Basis-URL und Token
-const baseURL = "http://localhost:3030";
-const token =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjVAbWFpbC5jb20iLCJpYXQiOjE3NDczMDczMTAsImV4cCI6MTc0NzMxMDkxMCwic3ViIjoiNyJ9.vxo3VZUuOGXq7IRbVzMbNgFN2NPy8AKyVI5-0uqVPL8";
+function Login() {
+  const baseURL = "http://localhost:3030";
 
-// Axios-Instanz erstellen
-const instance = axios.create({
-  baseURL: baseURL,
-  headers: {
-    "Content-Type": "application/json",
-    Authorization: `Bearer ${token}`, // Bearer Token für Authentifizierung
-  },
-});
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorLog, setErrorLog] = useState<string | null>(null);
+  const navigate = useNavigate();
 
-function App() {
-  const [email, setEmail] = useState<string>(""); // E-Mail State
-  const [password, setPassword] = useState<string>(""); // Passwort State
-  const [token, setToken] = useState<string | null>(null); // JWT-Token
-  const [movies, setMovies] = useState<any[]>([]); // State für Movies
-  const [loading, setLoading] = useState<boolean>(false); // Ladezustand
-  const [error, setError] = useState<string | null>(null); // Fehlerzustand
-
-  useEffect(() => {
-    const fetchMovies = async () => {
-      if (!token) return; // Wenn kein Token, keine Filme abrufen
-
-      try {
-        const response = await axios.get(`${baseURL}/movies`, {
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(
+        `${baseURL}/login`,
+        {
+          email: email,
+          password: password,
+        },
+        {
           headers: {
-            Authorization: `Bearer ${token}`, // Token im Header senden
+            "Content-Type": "application/json",
           },
-        });
-        setMovies(response.data); // Filme im State speichern
-      } catch (error) {
-        setError("Fehler beim Abrufen der Filme.");
-      }
-    };
+        }
+      );
+      const token = response.data.token;
+      localStorage.setItem("accessToken", token);
 
-    fetchMovies();
-  }, []); // Effekt wird nur einmal beim Laden ausgeführt
-
-  // Formular-Händler für E-Mail und Passwort
-  const handleMailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(event.target.value);
+      setErrorLog(null);
+      navigate("/homepage");
+    } catch (error: any) {
+      setErrorLog(error.response?.data?.message || "Login failed");
+    }
   };
 
-  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(event.target.value);
-  };
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    console.log("Form submitted");
-  };
-
-  handleLogin = async (email: string, password: string) => {
-    setLoading(true);
-    setError(null);
-
-    return (
-      <>
-        <div>
-          <h1>Movies List</h1>
-          {/* Zeige die Filme an */}
-          <ul>
-            {movies.map((movie, index) => (
-              <li key={index}>{movie.title}</li> // Beispiel: Filme nach Titel anzeigen
-            ))}
-          </ul>
-        </div>
-
-        <div>
-          <form onSubmit={handleSubmit}>
-            <div>
-              <input
-                type="email"
-                placeholder="Email"
-                onChange={handleMailChange}
-              />
-            </div>
-
-            <div>
-              <input
-                type="password"
-                placeholder="Password"
-                onChange={handlePasswordChange}
-              />
-            </div>
-
-            <button type="submit">Login</button>
-          </form>
-        </div>
-      </>
-    );
-  };
+  return (
+    <>
+      <Box>
+        <h1>Login</h1>
+      </Box>
+      <Box
+        component="form"
+        onSubmit={handleLogin}
+        sx={{ display: "flex", flexDirection: "column", gap: 2 }}
+      >
+        <TextField
+          label="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <TextField
+          label="password"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <Button type="submit" variant="contained">
+          Login
+        </Button>
+        {errorLog && <Typography color="error">{errorLog}</Typography>}
+      </Box>
+    </>
+  );
 }
-export default App;
+
+export default Login;
