@@ -37,6 +37,21 @@ const MovieService = (api: AxiosInstance = baseInstance) => ({
       });
     return data.data;
   },
+
+  addMovie: async (movie: any) => {
+    const token = localStorage.getItem("accessToken");
+    const data = await baseInstance
+      .post("/movies", movie, {
+        headers: {
+          Authorization: token ?? "",
+          "Content-Type": "application/json",
+        },
+      })
+      .catch((err) => {
+        throw err;
+      });
+    return data.data;
+  },
 });
 
 export default MovieService;

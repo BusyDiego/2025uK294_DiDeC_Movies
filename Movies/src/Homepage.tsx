@@ -29,6 +29,20 @@ function Homepage() {
   const [editTitle, setEditTitle] = useState("");
   const [editDirector, setEditDirector] = useState("");
   const [editUsGross, setEditUsGross] = useState("");
+  const [editWorldWideGross, setEditWorldWideGross] = useState("");
+  const [USDVDSales, setUSDVDSales] = useState("");
+  const [productionBudget, setProductionBudget] = useState("");
+  const [releaseDate, setReleaseDate] = useState("");
+  const [MPAARating, setMPAARating] = useState("");
+  const [runningTime, setRunningTime] = useState("");
+  const [distributor, setDistributor] = useState("");
+  const [source, setSource] = useState("");
+  const [majorGenre, setMajorGenre] = useState("");
+  const [creativeType, setCreativeType] = useState("");
+  const [rottenTomatoesRating, setRottenTomatoesRating] = useState("");
+  const [imdbRating, setImdbRating] = useState("");
+  const [imdbVotes, setImdbVotes] = useState("");
+  const [id, setId] = useState("");
 
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
@@ -225,6 +239,76 @@ function Homepage() {
                 onChange={(e) => setEditUsGross(e.target.value)}
                 placeholder="US Gross"
               />
+              <input
+                value={editWorldWideGross}
+                onChange={(e) => setEditWorldWideGross(e.target.value)}
+                placeholder="Worldwide Gross"
+              />
+              <input
+                value={USDVDSales}
+                onChange={(e) => setUSDVDSales(e.target.value)}
+                placeholder="US DVD Sales"
+              />
+              <input
+                value={productionBudget}
+                onChange={(e) => setProductionBudget(e.target.value)}
+                placeholder="Production Budget"
+              />
+              <input
+                value={releaseDate}
+                onChange={(e) => setReleaseDate(e.target.value)}
+                placeholder="Release Date"
+              />
+              <input
+                value={MPAARating}
+                onChange={(e) => setMPAARating(e.target.value)}
+                placeholder="MPAA Rating"
+              />
+              <input
+                value={runningTime}
+                onChange={(e) => setRunningTime(e.target.value)}
+                placeholder="Running Time"
+              />
+              <input
+                value={distributor}
+                onChange={(e) => setDistributor(e.target.value)}
+                placeholder="Distributor"
+              />
+              <input
+                value={source}
+                onChange={(e) => setSource(e.target.value)}
+                placeholder="Source"
+              />
+              <input
+                value={majorGenre}
+                onChange={(e) => setMajorGenre(e.target.value)}
+                placeholder="Major Genre"
+              />
+              <input
+                value={creativeType}
+                onChange={(e) => setCreativeType(e.target.value)}
+                placeholder="Creative Type"
+              />
+              <input
+                value={rottenTomatoesRating}
+                onChange={(e) => setRottenTomatoesRating(e.target.value)}
+                placeholder="Rotten Tomatoes Rating"
+              />
+              <input
+                value={imdbRating}
+                onChange={(e) => setImdbRating(e.target.value)}
+                placeholder="IMDB Rating"
+              />
+              <input
+                value={imdbVotes}
+                onChange={(e) => setImdbVotes(e.target.value)}
+                placeholder="IMDB Votes"
+              />
+              <input
+                value={id}
+                onChange={(e) => setId(e.target.value)}
+                placeholder="ID"
+              />
             </>
           ) : (
             movie && renderMovieDetails(movie)
@@ -240,6 +324,20 @@ function Homepage() {
                     Title: editTitle,
                     Director: editDirector,
                     "US Gross": editDirector,
+                    "Worldwide Gross": editWorldWideGross,
+                    "US DVD Sales": USDVDSales,
+                    "Production Budget": productionBudget,
+                    "Release Date": releaseDate,
+                    "MPAA Rating": MPAARating,
+                    "Running Time min": runningTime,
+                    Distributor: distributor,
+                    Source: source,
+                    "Major Genre": majorGenre,
+                    "Creative Type": creativeType,
+                    "Rotten Tomatoes Rating": rottenTomatoesRating,
+                    "IMDB Rating": imdbRating,
+                    "IMDB Votes": imdbVotes,
+                    id: id,
                   });
                   setEditMode(false);
                   setOpen(false);
