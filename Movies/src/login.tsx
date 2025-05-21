@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { MoviesProxy } from "./movies.tsx";
 import { baseInstance } from "./Api";
+import LoginService from "./loginService.tsx";
 
 function Login() {
   const baseURL = "http://localhost:3030";
@@ -17,27 +18,17 @@ function Login() {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      const response = await axios.post(
-        `${baseURL}/login`,
-        {
-          email: email,
-          password: password,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      const token = response.data.token;
-      localStorage.setItem("accessToken", token);
+    console.log(email, password);
 
-      setErrorLog(null);
-      navigate("/homepage");
-    } catch (error: any) {
-      setErrorLog(error.response?.data?.message || "Login failed");
-    }
+    LoginService()
+      .login(email, password)
+      .then(() => {
+        console.log("Login successful");
+        navigate("/homepage", { replace: true });
+      })
+      .catch((error) => {
+        console.error("Login failed", error);
+      });
   };
 
   return (
@@ -61,7 +52,7 @@ function Login() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <Button type="submit" variant="contained">
+        <Button type="submit" variant="contained" onSubmit={handleLogin}>
           Login
         </Button>
         {errorLog && <Typography color="error">{errorLog}</Typography>}

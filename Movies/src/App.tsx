@@ -1,18 +1,17 @@
+import Login from "./Login";
+import Homepage from "./Homepage";
+import { Routes, Route } from "react-router-dom";
 import "./App.css";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Homepage from "./Homepage.tsx";
-import Login from "./Login.tsx";
 
 function App() {
   return (
-    <Router>
-      <div>
-        <Login />
-        <Routes>
-          <Route path="/homepage" element={<Homepage />} />
-        </Routes>
-      </div>
-    </Router>
+    <Routes>
+      <Route path={"login"} element={<Login />} />
+      <Route path={"homepage"} element={<Homepage />} />
+      <Route path={"login/homepage"} element={<Homepage />} />
+      <Route path={"movies"} element={<Homepage />} />
+      <Route path={"*"} element={<Login />} />
+    </Routes>
   );
 }
 
