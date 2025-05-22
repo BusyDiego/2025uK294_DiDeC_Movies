@@ -1,4 +1,110 @@
 #root {
+  min-height: 100vh;
+  min-width: 100vw;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Orbitron", "Arial", sans-serif;
+
+  background: linear-gradient(135deg, #0f2027 0%, #2c5364 40%, #ff00de 100%);
+  position: relative;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+#root::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: repeating-linear-gradient(
+      to bottom,
+      rgba(255, 0, 222, 0.08) 0px,
+      rgba(255, 0, 222, 0.08) 2px,
+      transparent 2px,
+      transparent 40px
+    ),
+    repeating-linear-gradient(
+      to right,
+      rgba(0, 255, 240, 0.08) 0px,
+      rgba(0, 255, 240, 0.08) 2px,
+      transparent 2px,
+      transparent 40px
+    );
+  pointer-events: none;
+}
+
+.neon-title {
+  color: #fff;
+  font-size: 3rem;
+  text-align: center;
+  margin-top: 2rem;
+  text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #ff00de, 0 0 40px #ff00de,
+    0 0 80px #ff00de;
+  letter-spacing: 0.1em;
+  font-family: "Orbitron", "Arial", sans-serif;
+  z-index: 1;
+}
+
+.neon-box,
+.MuiDialogContent-root {
+  background: rgba(20, 20, 40, 0.85);
+  border: 2px solid #ff00de;
+  border-radius: 20px;
+  box-shadow: 0 0 40px #ff00de, 0 0 10px #00fff0 inset;
+  padding: 2rem;
+  margin: 2rem auto;
+  max-width: 500px;
+  z-index: 1;
+}
+
+.neon-btn {
+  background: #ff00de;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 0.7em 2em;
+  font-size: 1.1em;
+  font-family: "Orbitron", "Arial", sans-serif;
+  box-shadow: 0 0 10px #ff00de, 0 0 20px #00fff0;
+  transition: background 0.2s, box-shadow 0.2s;
+  margin: 0.5em;
+}
+.neon-btn:hover {
+  background: #00fff0;
+  color: #222;
+  box-shadow: 0 0 20px #00fff0, 0 0 40px #ff00de;
+}
+
+.neon-btn.delete,
+.neon-btn.delete:hover {
+  background: #ff1744;
+  color: #fff;
+  box-shadow: none;
+  border: none;
+}
+
+input,
+.MuiInputBase-root,
+.MuiTextField-root {
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: #fff !important;
+  border-radius: 8px !important;
+  border: 1px solid #ff00de !important;
+  margin-bottom: 1em !important;
+}
+
+label,
+.MuiInputLabel-root {
+  color: #ff00de !important;
+  font-family: "Orbitron", "Arial", sans-serif !important;
+}
+
+#root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
@@ -44,4 +150,58 @@
 
 .read-the-docs {
   color: #888;
+}
+
+.movie-list-item,
+.movie-list-item b {
+  font-size: 1.35rem;
+  letter-spacing: 0.03em;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+.movie-list-item {
+  margin-bottom: 1em;
+}
+
+.palm-right {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 320px;
+  max-width: 30vw;
+  z-index: 10;
+  pointer-events: none;
+  user-select: none;
+  filter: drop-shadow(0 0 30px #ff00de) drop-shadow(0 0 10px #00fff0);
+}
+
+.palm-left {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 420px;
+  max-width: 30vw;
+  z-index: 10;
+  pointer-events: none;
+  user-select: none;
+  filter: drop-shadow(0 0 30px #ff00de) drop-shadow(0 0 10px #00fff0);
+  transform: scaleX(-1);
+}
+
+.retrowave-sun {
+  position: fixed;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  z-index: 0; /* ganz im Hintergrund */
+  pointer-events: none;
+  user-select: none;
+  width: 480px;
+  max-width: 60vw;
+  opacity: 0.85;
+  filter: drop-shadow(0 0 60px #ff00de) drop-shadow(0 0 40px #fff200);
 }

@@ -1,4 +1,3 @@
-// Stores the currently-being-typechecked object for error messages.
 let obj: unknown = null;
 
 export interface MovieData {
@@ -62,7 +61,6 @@ export class MoviesProxy {
 
     const data = d as Record<string, unknown>;
 
-    // Validate Title (string or number)
     if (data.Title === undefined) {
       data.Title = null;
     } else if (
@@ -72,7 +70,6 @@ export class MoviesProxy {
       throwTypeError(field + ".Title", data.Title, "string or number", true);
     }
 
-    // Validate nullable number fields
     checkNumber(data["US Gross"], true, field + ".US Gross");
     data["US Gross"] = data["US Gross"] ?? null;
 
@@ -85,10 +82,8 @@ export class MoviesProxy {
     checkNumber(data["Production Budget"], true, field + ".Production Budget");
     data["Production Budget"] = data["Production Budget"] ?? null;
 
-    // Validate Release Date (non-nullable string)
     checkString(data["Release Date"], false, field + ".Release Date");
 
-    // Validate nullable string fields
     checkString(data["MPAA Rating"], true, field + ".MPAA Rating");
     data["MPAA Rating"] = data["MPAA Rating"] ?? null;
 
@@ -123,7 +118,6 @@ export class MoviesProxy {
     checkNumber(data["IMDB Votes"], true, field + ".IMDB Votes");
     data["IMDB Votes"] = data["IMDB Votes"] ?? null;
 
-    // Validate id (non-nullable number)
     checkNumber(data.id, false, field + ".id");
 
     return new MoviesProxy(data as unknown as MovieData);

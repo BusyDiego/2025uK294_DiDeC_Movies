@@ -28,6 +28,7 @@ function Login() {
       })
       .catch((error) => {
         console.error("Login failed", error);
+        setErrorLog("Login failed, please check your Mail and Password.");
       });
   };
 

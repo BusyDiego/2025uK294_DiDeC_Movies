@@ -52,6 +52,15 @@ const MovieService = (api: AxiosInstance = baseInstance) => ({
       });
     return data.data;
   },
+
+  deleteMovie: async (id: string | number) => {
+    const token = localStorage.getItem("accessToken");
+    await baseInstance.delete(`/movies/${id}`, {
+      headers: {
+        Authorization: token ?? "",
+      },
+    });
+  },
 });
 
 export default MovieService;
