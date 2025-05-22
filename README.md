@@ -58,6 +58,7 @@ Sie dient dazu, praktische Kenntnisse in **React, TypeScript, REST-APIs und Stat
    ```bash
    npm run dev
    ```
+   und dann auf den Link drücken.
 
 3. **API-Server sicherstellen:**  
    Die App greift auf eine lokale API unter `http://localhost:3030` zu. Stelle sicher, dass dein Backend läuft.
