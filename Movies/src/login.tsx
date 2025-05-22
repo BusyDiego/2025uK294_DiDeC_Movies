@@ -28,6 +28,7 @@ function Login() {
       })
       .catch((error) => {
         console.error("Login failed", error);
+        setErrorLog("Login failed, please check your Mail and Password.");
       });
   };
 
@@ -54,6 +55,9 @@ function Login() {
         />
         <Button type="submit" variant="contained" onSubmit={handleLogin}>
           Login
+        </Button>
+        <Button onClick={() => navigate("/register")}>
+          Noch kein Account? Jetzt registrieren
         </Button>
         {errorLog && <Typography color="error">{errorLog}</Typography>}
       </Box>

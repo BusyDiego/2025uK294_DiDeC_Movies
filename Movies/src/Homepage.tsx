@@ -1,6 +1,8 @@
 import { use, useEffect, useState } from "react";
 import axios from "axios";
 import "./login.css";
+import Register from "./Register";
+
 import {
   Box,
   Button,
@@ -15,7 +17,10 @@ import { baseInstance } from "./Api";
 import MovieService from "./MovieService.ts";
 import getMovieById from "./MovieService.ts";
 import updateMovie from "./MovieService.ts";
-import { Input } from "@mui/material";
+import { Input, TextField } from "@mui/material";
+import MovieCreateDialog from "./MovieCreateDialog.tsx";
+import MovieEditDialog from "./MovieEditDialog";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 function Homepage() {
   const [movies, setMovies] = useState<MovieData[]>([]);
@@ -26,6 +31,8 @@ function Homepage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [open, setOpen] = useState(false);
   const [editMode, setEditMode] = useState(false);
+  const [editOpen, setEditOpen] = useState(false);
+  const [editMovie, setEditMovie] = useState<any>(null);
   const [editTitle, setEditTitle] = useState("");
   const [editDirector, setEditDirector] = useState("");
   const [editUsGross, setEditUsGross] = useState("");
@@ -43,6 +50,7 @@ function Homepage() {
   const [imdbRating, setImdbRating] = useState("");
   const [imdbVotes, setImdbVotes] = useState("");
   const [id, setId] = useState("");
+  const [createOpen, setCreateOpen] = useState(false);
 
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
@@ -71,7 +79,6 @@ function Homepage() {
     String(movie.Title).toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // Holt alle Infos aus Movies.tsx für das aktuelle Movie
   const renderMovieDetails = (movie: MovieData) => (
     <Box>
       {Object.entries(movie).map(([key, value]) => (
@@ -81,6 +88,11 @@ function Homepage() {
       ))}
     </Box>
   );
+
+  const handleDelete = async (id: string | number) => {
+    await MovieService().deleteMovie(id);
+    MovieService().getAllMovies().then(setMovies);
+  };
 
   return (
     <>
@@ -151,8 +163,18 @@ function Homepage() {
                     setEditMode(false);
                     setOpen(true);
                   }}
+                  className="neon-btn"
                 >
                   Mehr Infos
+                </Button>
+                <Button
+                  variant="outlined"
+                  color="error"
+                  className="neon-btn delete"
+                  onClick={() => handleDelete(m.id)}
+                  sx={{ mt: 1, ml: 1 }}
+                >
+                  Delete
                 </Button>
               </li>
             ))}
@@ -194,23 +216,30 @@ function Homepage() {
         <Button
           onClick={() => {
             if (movie) {
-              setEditTitle(movie.Title || "");
-              setEditDirector(movie.Director || "");
-              setEditMode(true);
-              setOpen(true);
+              setEditMovie(movie);
+              setEditOpen(true);
             }
           }}
         >
           Bearbeiten
         </Button>
 
-        <Button>Hinzufügen</Button>
+        <Button onClick={() => setCreateOpen(true)}>Hinzufügen</Button>
       </Box>
       <Button variant="outlined" color="error" onClick={handleLogout}>
         Logout
       </Button>
 
-      {/* PopUp Dialog */}
+      <MovieCreateDialog
+        open={createOpen}
+        onClose={() => setCreateOpen(false)}
+        onCreate={async (newMovie) => {
+          await MovieService().addMovie(newMovie);
+          MovieService().getAllMovies().then(setMovies);
+          setCreateOpen(false);
+        }}
+      />
+
       <Dialog
         open={open}
         onClose={() => {
@@ -223,93 +252,9 @@ function Homepage() {
         <DialogTitle>{editMode ? "Film Bearbeiten" : "Infos Film"}</DialogTitle>
         <DialogContent>
           {editMode ? (
-            <>
-              <input
-                value={editTitle}
-                onChange={(e) => setEditTitle(e.target.value)}
-                placeholder="Titel"
-              />
-              <input
-                value={editDirector}
-                onChange={(e) => setEditDirector(e.target.value)}
-                placeholder="Director"
-              />
-              <input
-                value={editUsGross}
-                onChange={(e) => setEditUsGross(e.target.value)}
-                placeholder="US Gross"
-              />
-              <input
-                value={editWorldWideGross}
-                onChange={(e) => setEditWorldWideGross(e.target.value)}
-                placeholder="Worldwide Gross"
-              />
-              <input
-                value={USDVDSales}
-                onChange={(e) => setUSDVDSales(e.target.value)}
-                placeholder="US DVD Sales"
-              />
-              <input
-                value={productionBudget}
-                onChange={(e) => setProductionBudget(e.target.value)}
-                placeholder="Production Budget"
-              />
-              <input
-                value={releaseDate}
-                onChange={(e) => setReleaseDate(e.target.value)}
-                placeholder="Release Date"
-              />
-              <input
-                value={MPAARating}
-                onChange={(e) => setMPAARating(e.target.value)}
-                placeholder="MPAA Rating"
-              />
-              <input
-                value={runningTime}
-                onChange={(e) => setRunningTime(e.target.value)}
-                placeholder="Running Time"
-              />
-              <input
-                value={distributor}
-                onChange={(e) => setDistributor(e.target.value)}
-                placeholder="Distributor"
-              />
-              <input
-                value={source}
-                onChange={(e) => setSource(e.target.value)}
-                placeholder="Source"
-              />
-              <input
-                value={majorGenre}
-                onChange={(e) => setMajorGenre(e.target.value)}
-                placeholder="Major Genre"
-              />
-              <input
-                value={creativeType}
-                onChange={(e) => setCreativeType(e.target.value)}
-                placeholder="Creative Type"
-              />
-              <input
-                value={rottenTomatoesRating}
-                onChange={(e) => setRottenTomatoesRating(e.target.value)}
-                placeholder="Rotten Tomatoes Rating"
-              />
-              <input
-                value={imdbRating}
-                onChange={(e) => setImdbRating(e.target.value)}
-                placeholder="IMDB Rating"
-              />
-              <input
-                value={imdbVotes}
-                onChange={(e) => setImdbVotes(e.target.value)}
-                placeholder="IMDB Votes"
-              />
-              <input
-                value={id}
-                onChange={(e) => setId(e.target.value)}
-                placeholder="ID"
-              />
-            </>
+            <Box
+              sx={{ display: "flex", flexDirection: "column", gap: 2 }}
+            ></Box>
           ) : (
             movie && renderMovieDetails(movie)
           )}
@@ -323,7 +268,7 @@ function Homepage() {
                     ...movie,
                     Title: editTitle,
                     Director: editDirector,
-                    "US Gross": editDirector,
+                    "US Gross": editUsGross,
                     "Worldwide Gross": editWorldWideGross,
                     "US DVD Sales": USDVDSales,
                     "Production Budget": productionBudget,
@@ -341,13 +286,12 @@ function Homepage() {
                   });
                   setEditMode(false);
                   setOpen(false);
-                  // Optional: Filme neu laden
                   MovieService().getAllMovies().then(setMovies);
                 }}
+                variant="contained"
               >
                 Speichern
               </Button>
-
               <Button
                 onClick={() => {
                   setEditMode(false);
@@ -362,6 +306,13 @@ function Homepage() {
           )}
         </DialogActions>
       </Dialog>
+
+      <MovieEditDialog
+        open={editOpen}
+        movie={editMovie}
+        onClose={() => setEditOpen(false)}
+        onSaved={() => MovieService().getAllMovies().then(setMovies)}
+      />
     </>
   );
 }
