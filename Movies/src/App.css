@@ -197,11 +197,16 @@ ul {
   left: 50%;
   bottom: 0;
   transform: translateX(-50%);
-  z-index: 0; /* ganz im Hintergrund */
+  z-index: 0;
   pointer-events: none;
   user-select: none;
   width: 480px;
   max-width: 60vw;
   opacity: 0.85;
   filter: drop-shadow(0 0 60px #ff00de) drop-shadow(0 0 40px #fff200);
+}
+
+.MuiDialogContent-root,
+.movie-info-details {
+  color: #fff !important;
 }

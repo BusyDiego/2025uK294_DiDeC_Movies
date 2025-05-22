@@ -3,6 +3,7 @@ import Homepage from "./Homepage";
 import { Routes, Route } from "react-router-dom";
 import "./App.css";
 import RetroSun from "./RetroSun";
+import Register from "./Register";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route path={"login/homepage"} element={<Homepage />} />
         <Route path={"movies"} element={<Homepage />} />
         <Route path={"*"} element={<Login />} />
+        <Route path="register" element={<Register />} />
       </Routes>
     </>
   );
