@@ -26,9 +26,33 @@ Sie dient dazu, praktische Kenntnisse in **React, TypeScript, REST-APIs und Stat
 ## Setup
 
 1. **Installiere Abhängigkeiten:**
-   ```bash
-   npm install
-   ```
+
+### Haupt-Dependencies
+
+| Paket                     | Beschreibung                                      |
+|---------------------------|---------------------------------------------------|
+| `react`                   | React-Bibliothek                                  |
+| `react-dom`               | Zum Rendern der React-Komponenten im DOM         |
+| `react-router-dom`        | Routing (z. B. `/login`, `/homepage`)             |
+| `axios`                   | Für REST-API-Aufrufe                              |
+| `formik`                  | Für einfaches Handling von Formularen             |
+| `yup`                     | (Optional) Validierung für Formulare mit Formik   |
+| `@mui/material`           | UI-Komponenten (z. B. Button, Dialog)             |
+| `@emotion/react`          | Für MUI Styling                                   |
+| `@emotion/styled`         | Styled Components für MUI                         |
+
+---
+
+### Dev-Dependencies
+
+| Paket                     | Beschreibung                                      |
+|---------------------------|---------------------------------------------------|
+| `typescript`              | Für typsichere Entwicklung                        |
+| `vite`                    | Build Tool / Dev Server                           |
+| `@types/react`            | TypeScript-Typen für React                        |
+| `@types/react-dom`        | TypeScript-Typen für ReactDOM                     |
+| `@types/react-router-dom` | Typen für Router                                  |
+
 
 2. **Starte das Projekt:**
    ```bash
